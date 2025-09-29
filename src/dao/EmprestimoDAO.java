@@ -1,5 +1,5 @@
 package dao;
-
+//Importação das bibliotecas
 import database.Database;
 import model.Emprestimo;
 
@@ -7,6 +7,17 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+/* 
+ * DAO de empretimos 
+ * Regras prioncipais que este DAO garante:
+ * 1) Um livro NÃO pode ser emprestado se já estiver emprestado (disponivel = 0).
+ * 2) Sempre que um emprestimo é criado : o livro é marcado como indiponivel (disponivel = 0).
+ *
+ *  Como garantimos consistencia??
+ * 
+ * Observações:
+ * 
+ */
 
 
 public class EmprestimoDAO {
@@ -43,7 +54,7 @@ public class EmprestimoDAO {
                 ps.setDate(3, Date.valueOf(e.getDataEmprestimo())); // LocalDAte ->  java.sql.DAte
                 ps.setDate(4, Date.valueOf(e.getDataDevolucao()));
                 ps.executeUpdate();
-
+//Recupera o ID gerado e atribui ao objeto
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) e.setId(rs.getInt(1));
                 }
